@@ -4,29 +4,50 @@
     <meta charset="utf-8" />
     <title> The World - @ViewBag.Title </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootswatch/yeti/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/resources/css/site.css" />
 </head>
 <body>
     <div id="sidebar">
         <img src="~/resources/img/placeholder.png" alt="headshot" class="headshot" />
         <span id="username">Joakim Bajoul Kakaei</span>
-        <ul class="menu">
+        <ul class="nav">
             <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
             <li><a asp-controller="App" asp-action="About">About</a></li>
             <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
         </ul>
     </div>
     <div id="wrapper">
-
-        <div id="main">
-            <div>
-                <button id="sidebarToggle">Hide Sidebar</button>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <button id="sidebarToggle" class="btn btn-primary">
+                            <i class="fa fa-angle-left"></i>
+                        </button>
+                    </li>
+                </ul> 
+                <a asp-controller="App" asp-action="Index" class="navbar-brand">The World</a>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" class="btn btn-sm btn-info">
+                            <i class="fa fa-save"></i>
+                            Save
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </nav> 
+        <div id="main"> 
             @RenderBody()
         </div>
 
-        <div id="footer">
-            &copy; 2017 Kimput.com.
+        <div id="footer" class="container-fluid">
+            <div class="navbar navbar-inverse navbar-fixed-bottom">
+                <h4 class="text-center text-info">&copy; 2017 Kimput.com.</h4>
+            </div>
+            
         </div>
     </div>
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script> 

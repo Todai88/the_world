@@ -23,14 +23,16 @@ site.js
     //});
 
     var $sidebarAndWrapper = $("#sidebar, #wrapper");
-
+    var $icon = $("#sidebarToggle i.fa");
     $("#sidebarToggle").on("click", function () {
         $sidebarAndWrapper.toggleClass("hide-sidebar");
         setTimeout(function () {
             if ($sidebarAndWrapper.hasClass("hide-sidebar")) {
-                $("#sidebarToggle").text("Show Sidebar");
+                $icon.removeClass("fa-angle-left");
+                $icon.addClass("fa-angle-right");
             } else {
-                $("#sidebarToggle").text("Hide Sidebar");
+                $icon.removeClass("fa-angle-right");
+                $icon.addClass("fa-angle-left");
             }
         }, 250);
     }); 
