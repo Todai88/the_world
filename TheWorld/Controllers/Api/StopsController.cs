@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,6 +13,7 @@ using TheWorld.ViewModels;
 
 namespace TheWorld.Controllers.Api
 {
+    [Authorize]
     [Route("/api/trips/{tripName}/stops")]
     public class StopsController : Controller
     {
@@ -31,7 +33,7 @@ namespace TheWorld.Controllers.Api
         {
             try
             {
-                var trip = _repository.GetTripByName(tripName); 
+                var trip = _repository.GetUserTripByName(tripName, User.Identity.Name); 
                 return Ok(Mapper.Map<IEnumerable<StopViewModel>>(trip.Stops.OrderBy(s => s.Order).ToList()));
             }
             catch (Exception ex)
@@ -42,14 +44,14 @@ namespace TheWorld.Controllers.Api
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Post(string tripName, [FromBody] StopViewModel stop)
+        public async Task<IActionResult> Post(string tripName, [FromBody]StopViewModel vm)
         {
             try
             {
                 // If the VM is valid
                 if (ModelState.IsValid)
                 {
-                    var newStop = Mapper.Map<Stop>(stop);
+                    var newStop = Mapper.Map<Stop>(vm);
                     // Lookup the Geocodes
                     var result = await _coordsService.GetCoordsAsync(newStop.Name);
                     if (!result.Success)
@@ -59,14 +61,14 @@ namespace TheWorld.Controllers.Api
                     {
                         newStop.Latitude  = result.Latitude;
                         newStop.Longitude = result.Longitude;
-                    }
-                    // Save to the Database
-                    _repository.AddStop(tripName, newStop);
+                        // Save to the Database
+                        _repository.AddStop(tripName, newStop, User.Identity.Name);
 
-                    if (await _repository.SaveChangesAsync())
-                    {
-                        return Created($"/api/trips/{stop.Name}", 
-                                       Mapper.Map<StopViewModel>(newStop));
+                        if (await _repository.SaveChangesAsync())
+                        {
+                            return Created($"/api/trips/{vm.Name}",
+                                           Mapper.Map<StopViewModel>(newStop));
+                        }
                     }
                 }
             }

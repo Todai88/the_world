@@ -10,12 +10,18 @@
 </head>
 <body>
     <div id="sidebar">
-        <img src="~/resources/img/placeholder.png" alt="headshot" class="headshot" />
-        <span id="username">Joakim Bajoul Kakaei</span>
+        @if (User.Identity.IsAuthenticated) {
+            <img src="~/resources/img/placeholder.png" alt="headshot" class="headshot" />
+            <span id="username">@User.Identity.Name</span>
+        }
         <ul class="nav">
             <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
             <li><a asp-controller="App" asp-action="About">About</a></li>
             <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
+            @if (User.Identity.IsAuthenticated) { 
+                <li><a asp-controller="App" asp-action="Trips">Trips</a></li>
+                <li><a asp-controller="Auth" asp-action="Logout"><i class="fa fa-sign-out"></i>Logout</a></li>
+            }
         </ul>
     </div>
     <div id="wrapper">
