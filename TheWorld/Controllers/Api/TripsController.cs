@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheWorld.Models;
 using TheWorld.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace TheWorld.Controllers.Api
 {
@@ -13,27 +15,46 @@ namespace TheWorld.Controllers.Api
     public class TripsController : Controller
     {
         private IWorldRepository _repository;
-
-        public TripsController(IWorldRepository repository)
+        private ILogger _logger;
+        public TripsController(IWorldRepository repository, ILogger<TripsController> logger)
         {
+            _logger = logger;
             _repository = repository;
         }
 
         [HttpGet("")]
         public IActionResult Get()
         {
-               return Ok(_repository.GetAllTrips());
+            try
+            { 
+                var results = _repository.GetAllTrips();
+                return Ok(Mapper.Map<IEnumerable<TripViewModel>>(results));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get All Trips: {ex}");
+                return BadRequest($"Something bad happened.");
+            }
         }
 
         [HttpPost("")]
-        public IActionResult Post([FromBody] TripViewModel trip)
+        public async Task<IActionResult> Post([FromBody] TripViewModel trip)
         {
             if (ModelState.IsValid)
             {
-                return Created($"api/trips/{trip.Name}", trip);
-            }
+                var newTrip = Mapper.Map<Trip>(trip);
+                _repository.AddTrip(newTrip);
 
-            return BadRequest("Something bad happened...");
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created($"api/trips/{trip.Name}", Mapper.Map<TripViewModel>(newTrip));
+                }
+                else
+                {
+                    return BadRequest("Failed to save changes to the database.");
+                }
+            }
+            return BadRequest("Failed to save the trip...");
         }
     }
 }
