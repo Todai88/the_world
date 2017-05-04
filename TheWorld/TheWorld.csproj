@@ -7,7 +7,14 @@
   <ItemGroup>
     <Content Include="wwwroot\index.html" />
     <Content Include="wwwroot\resources\css\site.css" />
+    <Content Include="wwwroot\resources\js\app-trips.js" />
+    <Content Include="wwwroot\resources\js\simpleControls.js" />
     <Content Include="wwwroot\resources\js\site.js" />
+    <Content Include="wwwroot\resources\js\tripEditorController.js" />
+    <Content Include="wwwroot\resources\js\tripsController.js" />
+    <Content Include="wwwroot\resources\views\tripEditorView.html" />
+    <Content Include="wwwroot\resources\views\tripsView.html" />
+    <Content Include="wwwroot\resources\views\waitCursor.html" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.0.2" />

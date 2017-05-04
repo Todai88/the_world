@@ -1,0 +1,39 @@
+﻿<div>
+    <a href="#!/" class="btn btn-sm btn-default"><i class="fa fa-angle-left"></i>Back</a>
+    <div class="col-md-3 col-xs-4">
+        <h2> {{ vm.tripName }}</h2>
+
+        <wait-cursor display-when="vm.isBusy"></wait-cursor>
+        <div class="alert alert-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
+
+        <table class="table table-responsive table-striped">
+            <tr>
+                <th>Location</th>
+                <th>Arrival</th>
+            </tr>
+            <tr ng-repeat="stop in vm.stops">
+                <td> {{ stop.name }}</td>
+                <td> {{ stop.arrival | date:shortDate }}</td>
+            </tr>
+        </table>
+        <form>
+            <div class="form-group">
+                <label>Date</label>
+                <input class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9 col-xs-8">
+        <h2> The Map</h2>
+        <div id="map">
+
+        </div>
+    </div>
+</div>
