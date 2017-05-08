@@ -8,7 +8,7 @@
 
     function tripEditorController($routeParams, $http) {
         // TODO
-        let vm = this;
+        var vm = this;
 
         /*
         * Setting up variables
@@ -18,7 +18,7 @@
         vm.errorMessage = "";
         vm.isBusy = true;
         vm.newStop = {};
-        let url = "/api/trips/" + vm.tripName + "/stops";
+        var url = "/api/trips/" + vm.tripName + "/stops";
 
         $http.get(url)
             .then(function (response) {

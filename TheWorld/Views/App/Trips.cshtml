@@ -8,10 +8,20 @@
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDy2OGr3_FwrbS75YQJ_WBgcDJ_FAIg8kQ" type="text/javascript"></script> 
     <script src="~/lib/gmaps/gmaps.min.js"></script>
     <script src="~/lib/travelmap/travelmap.min.js"></script>
-    <script src="~/resources/js/simpleControls.js"></script>
-    <script src="~/resources/js/app-trips.js"></script>
-    <script src="~/resources/js/tripsController.js"></script>
-    <script src="~/resources/js/tripEditorController.js"></script>
+    .
+    <environment names="Development"> 
+        <script src="~/resources/js/simpleControls.js"></script>
+        <script src="~/resources/js/app-trips.js"></script>
+        <script src="~/resources/js/tripsController.js"></script>
+        <script src="~/resources/js/tripEditorController.js"></script>
+    </environment>
+
+    <environment names="Staging, Production">
+        <script src="~/lib/_app/simpleControls.js"></script>
+        <script src="~/lib/_app/app-trips.js"></script>
+        <script src="~/lib/_app/tripsController.js"></script>
+        <script src="~/lib/_app/tripEditorController.js"></script>
+    </environment>
 }
 <div class="container-fluid">
     <div class="row" ng-app="app-trips">

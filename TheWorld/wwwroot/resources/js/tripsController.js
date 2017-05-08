@@ -9,7 +9,7 @@
     
     function tripsController($http) {
 
-        let vm = this;
+        var vm = this;
 
         vm.trips = [];
         vm.errorMessage;
